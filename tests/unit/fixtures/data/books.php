@@ -2,7 +2,14 @@
 use Faker\Factory;
 
 $faker = Factory::create();
-array_map('unlink', glob(Yii::getAlias('@app/web/img/*')));
+
+if(!is_dir(Yii::getAlias('@app/web/img'))){
+    mkdir(Yii::getAlias('@app/web/img'), 0777);
+}
+else{
+    array_map('unlink', glob(Yii::getAlias('@app/web/img/*')));
+}
+
 $data = [];
 for($i=0; $i<100; $i++){
     $data[] = [

@@ -8,6 +8,8 @@ use yii\web\Controller;
 
 abstract class BaseController extends Controller
 {
+    protected $logedHomeUrl;
+
     public function behaviors()
     {
         return [
@@ -26,7 +28,7 @@ abstract class BaseController extends Controller
                     ],
                     [
                         'controllers' => ['site'],
-                        'actions'=>['logout'],
+                        'actions'=>['logout','login'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -46,8 +48,8 @@ abstract class BaseController extends Controller
     {
         if(!\Yii::$app->user->isGuest){
 
-            $homeUrl = \Yii::$app->getUrlManager()->createUrl(['books/index']);
-            \Yii::$app->setHomeUrl($homeUrl);
+            $this->logedHomeUrl = \Yii::$app->getUrlManager()->createUrl(['books/index']);
+            \Yii::$app->setHomeUrl($this->logedHomeUrl);
         }
         return parent::beforeAction($action);
     }
